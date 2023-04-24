@@ -85,6 +85,7 @@ fabric.properties
 
 *.iml
 .idea
+src/Main.java
 # modules.xml
 # .idea/misc.xml
 # *.ipr
