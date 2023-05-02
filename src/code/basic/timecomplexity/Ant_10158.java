@@ -1,4 +1,4 @@
-package code.basic.string;
+package code.basic.timecomplexity;
 
 import java.util.Scanner;
 
