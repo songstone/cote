@@ -1,4 +1,4 @@
-package code.basic.prefixSum;
+package code.practice;
 
 import java.io.IOException;
 import java.util.Scanner;
