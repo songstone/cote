@@ -1,52 +1,60 @@
 package code.practice;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Candidate_1713 {
-    public static void main_1713 (String[] args) {
+    public static void main_1713(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
+        int frameCnt = sc.nextInt();
+        int voteNumber = sc.nextInt();
 
-        int N = sc.nextInt();
-        int R = sc.nextInt();
-        List<Student> post = new ArrayList<>();
-        for (int i = 0; i < R; i++) {
-            int votedNumber = sc.nextInt();
-            boolean alreadyPosted = false;
-            for (int j = 0; j < post.size(); j++)
-                if (post.get(j).number == votedNumber) {
-                    post.get(j).scr++;
-                    alreadyPosted = true;
+        List<Student> frame = new ArrayList<>(frameCnt);
+
+        for (int i = 0; i < voteNumber; i++) {
+            boolean isPosted = false;
+            int number = sc.nextInt();
+
+            for (int j = 0; j < frame.size(); j++) {
+                Student chk = frame.get(j);
+                if (chk.number == number) {
+                    chk.voteCnt += 1;
+                    isPosted = true;
                     break;
                 }
+            }
 
-            if (!alreadyPosted) {
-                if (post.size() < N) post.add(0, new Student(votedNumber, 1, i));
-                else {
-                    Collections.sort(post, (o1, o2) ->
-                        o1.scr == o2.scr ? o1.postedAt - o2.postedAt : o1.scr - o2.scr);
-                    post.set(0, new Student(votedNumber, 1, i));
+            if (!isPosted) {
+                if (frame.size() < frameCnt) {
+                    frame.add(new Student(number, 1, i));
+                } else {
+                    Collections.sort(frame, (s1, s2) -> s1.voteCnt == s2.voteCnt ? s1.postOrder - s2.postOrder : s1.voteCnt - s2.voteCnt);
+                    frame.set(0, new Student(number, 1, i));
                 }
             }
         }
 
-        Collections.sort(post, (o1, o2) -> o1.number - o2.number);
-        System.out.println(post.stream()
-            .map(student -> String.valueOf(student.number))
-            .collect(Collectors.joining(" ")));
+        Collections.sort(frame, (s1, s2) -> s1.number - s2.number);
+        for (Student student : frame) {
+            System.out.print(student.number);
+            System.out.print(" ");
+        }
+
     }
 }
 
 class Student {
     int number;
-    int scr;
-    int postedAt;
-    Student(int number, int scr, int postedAt) {
+    int voteCnt;
+    int postOrder;
+
+    public Student(int number, int voteCnt, int postOrder) {
         this.number = number;
-        this.scr = scr;
-        this.postedAt = postedAt;
+        this.voteCnt = voteCnt;
+        this.postOrder = postOrder;
     }
 }
+
