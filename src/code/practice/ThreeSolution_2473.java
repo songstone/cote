@@ -18,37 +18,23 @@ public class ThreeSolution_2473 {
         int ans2 = arr[1];
         int ans3 = arr[2];
         long ansAbs = Math.abs((long)arr[0] + arr[1] + arr[2]);
-        for (int i = 0; i < N - 2; i++)
-            for (int j = i + 1; j < N - 1; j++) {
-                int pairValue = findOptimalPairValue(arr, j + 1, N - 1, arr[i] + arr[j]);
-                long abs = Math.abs((long)arr[i] + arr[j] + pairValue);
-                if (abs < ansAbs) {
+        for (int i = 0; i < N - 2; i++) {
+            int leftIndex = i + 1;
+            int rightIndex = N - 1;
+            while (leftIndex < rightIndex) {
+                long currentSum = (long)arr[i] + arr[leftIndex] + arr[rightIndex];
+                long currentAbs = Math.abs(currentSum);
+                if (ansAbs > currentAbs) {
                     ans1 = arr[i];
-                    ans2 = arr[j];
-                    ans3 = pairValue;
-                    ansAbs = abs;
+                    ans2 = arr[leftIndex];
+                    ans3 = arr[rightIndex];
+                    ansAbs = currentAbs;
                 }
+                if (currentSum <= 0) leftIndex++;
+                else rightIndex--;
             }
+        }
 
         System.out.println(ans1 + " " + ans2 + " " + ans3);
-    }
-
-    public static int findOptimalPairValue(int[] arr, int fromIndex, int toIndex, int value) {
-        long optimalPairAbs = 3000000000L;
-        int optimalPairValue = 0;
-        int l = fromIndex, r = toIndex;
-        while (l <= r) {
-            int m = (l + r) / 2;
-            long sum = value + arr[m];
-            long sumAbs = Math.abs(sum);
-            if (sumAbs < optimalPairAbs) {
-                optimalPairValue = arr[m];
-                optimalPairAbs = sumAbs;
-            }
-            if (sum < 0) l = m + 1;
-            else if (sum > 0) r = m - 1;
-            else return arr[m];
-        }
-        return optimalPairValue;
     }
 }
