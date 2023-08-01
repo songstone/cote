@@ -44,17 +44,16 @@ public class Candidate_1713 {
         }
 
     }
-}
+    static class Student {
+        int number;
+        int voteCnt;
+        int postOrder;
 
-class Student {
-    int number;
-    int voteCnt;
-    int postOrder;
-
-    public Student(int number, int voteCnt, int postOrder) {
-        this.number = number;
-        this.voteCnt = voteCnt;
-        this.postOrder = postOrder;
+        public Student(int number, int voteCnt, int postOrder) {
+            this.number = number;
+            this.voteCnt = voteCnt;
+            this.postOrder = postOrder;
+        }
     }
 }
 
