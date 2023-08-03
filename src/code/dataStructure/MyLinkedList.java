@@ -1,4 +1,4 @@
-package code.basic.list;
+package code.dataStructure;
 
 public class MyLinkedList<E> {
 
