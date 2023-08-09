@@ -1,38 +1,40 @@
 package code.basic.stack;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Scanner;
 
 public class KeyLogger_5397 {
-    public static void main_5397(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
+    public static void main_5397(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+
+        StringBuffer sb = new StringBuffer();
+
+        Deque<Character> cursorLeft = new ArrayDeque<>();
+        Deque<Character> cursorRight = new ArrayDeque<>();
         while (T-- > 0) {
-            char[] input = sc.next().toCharArray();
-            Deque<Character> beforCursor = new ArrayDeque<>();
-            Deque<Character> afterCursor = new ArrayDeque<>();
-            for (char cmd : input) {
-                if (cmd == '-') {
-                    beforCursor.pollLast();
-                }
-                else if (cmd == '<') {
-                    if (!beforCursor.isEmpty())
-                        afterCursor.offerLast(beforCursor.pollLast());
-                }
-                else if (cmd == '>') {
-                    if (!afterCursor.isEmpty())
-                        beforCursor.offerLast(afterCursor.pollLast());
-                }
-                else {
-                    beforCursor.offerLast(cmd);
+            char[] chars = br.readLine().toCharArray();
+
+            for (char ch : chars) {
+                if (ch == '<') {
+                    if (!cursorLeft.isEmpty()) cursorRight.offerLast(cursorLeft.pollLast());
+                } else if (ch == '>') {
+                    if (!cursorRight.isEmpty()) cursorLeft.offerLast(cursorRight.pollLast());
+                } else if (ch == '-') {
+                    if (!cursorLeft.isEmpty()) cursorLeft.pollLast();
+                } else {
+                    cursorLeft.offerLast(ch);
                 }
             }
 
-            StringBuilder sb = new StringBuilder();
-            while (!beforCursor.isEmpty()) sb.append(beforCursor.pollFirst());
-            while (!afterCursor.isEmpty()) sb.append(afterCursor.pollLast());
+            while (!cursorLeft.isEmpty()) sb.append(cursorLeft.pollFirst());
+            while (!cursorRight.isEmpty()) sb.append(cursorRight.pollLast());
+
             System.out.println(sb);
+            sb.setLength(0);
         }
     }
 }
