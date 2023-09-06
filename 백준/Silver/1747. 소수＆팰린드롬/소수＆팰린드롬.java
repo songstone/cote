@@ -33,11 +33,9 @@ public class Main {
 
     public static boolean isPalindrome(int num) {
         char[] numArray = String.valueOf(num).toCharArray();
-        int leftIndex = 0;
-        int rightIndex = numArray.length - 1;
-        while(leftIndex < rightIndex) {
-            char A = numArray[leftIndex++];
-            char B = numArray[rightIndex--];
+        for (int i = 0; i < numArray.length / 2; i++) {
+            char A = numArray[i];
+            char B = numArray[numArray.length-1 - i];
             if(A != B) return false;
         }
         return true;
