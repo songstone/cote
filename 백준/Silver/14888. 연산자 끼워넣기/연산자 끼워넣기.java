@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         input();
-        rec_func(0);
+        rec_func(0, nums[0]);
         System.out.println(max);
         System.out.println(min);
     }
@@ -31,30 +31,24 @@ public class Main {
         order = new int[N-1];
     }
 
-    static int calculate() {
-        int answer = nums[0];
-        for (int i = 0; i < order.length; i++) {
-            int operator = order[i];
-
-            if(operator == 0) answer += nums[i + 1];
-            else if(operator == 1) answer -= nums[i + 1];
-            else if(operator == 2) answer *= nums[i + 1];
-            else answer /= nums[i + 1];
-        }
-        return answer;
-    }
-
-    static void rec_func(int k) {
-        if(k > N-2) {
-            int answer = calculate();
-            if(answer > max) max = answer;
-            if(answer < min) min = answer;
+    static void rec_func(int k, int value) {
+        if(k == N-1) {
+            if(value > max) max = value;
+            if(value < min) min = value;
         } else {
             for (int i = 0; i < operators.length; i++) {
                 if(operators[i] == 0) continue;
                 order[k] = i;
                 operators[i]--;
-                rec_func(k+1);
+
+                int calc_value = value;
+
+                if(i == 0) calc_value += nums[k + 1];
+                else if(i == 1) calc_value -= nums[k + 1];
+                else if(i == 2) calc_value *= nums[k + 1];
+                else calc_value /= nums[k + 1];
+
+                rec_func(k+1, calc_value);
                 operators[i]++;
             }
         }
