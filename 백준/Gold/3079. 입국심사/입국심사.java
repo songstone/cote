@@ -1,8 +1,8 @@
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int N = sc.nextInt();
@@ -10,23 +10,18 @@ public class Main {
 
         int[] times = new int[N];
 
-        int minTime = Integer.MAX_VALUE;
         for (int i = 0; i < N; i++) {
-            int time = sc.nextInt();
-            times[i] = time;
-            if (time < minTime) minTime = time;
+            times[i] = sc.nextInt();
         }
 
-        long totalMaxTime = (long)minTime * M;
-
         long chkLeftTime = 1;
-        long chkRightTime = totalMaxTime;
+        long chkRightTime = (long) Arrays.stream(times).min().getAsInt() * M;
 
-        long answer = totalMaxTime;
+        long answer = chkRightTime;
 
-        while(chkLeftTime <= chkRightTime) {
+        while (chkLeftTime <= chkRightTime) {
             long chkTime = (chkLeftTime + chkRightTime) / 2;
-            if(enablePassCnt(chkTime, times) >= M) {
+            if (enablePassCnt(chkTime, times) >= M) {
                 answer = chkTime;
                 chkRightTime = chkTime - 1;
             } else {
@@ -39,7 +34,7 @@ public class Main {
     public static long enablePassCnt(long chkTime, int[] times) {
         long count = 0;
         for (int time : times) {
-            count += chkTime/time;
+            count += chkTime / time;
         }
         return count;
     }
